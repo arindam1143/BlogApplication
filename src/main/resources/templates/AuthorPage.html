@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .top-left-buttons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .top-left-buttons a {
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+        }
+
+        .top-right-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .top-right-buttons a, form {
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px 0;
+        }
+
+        .post h2 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Welcome to the Blog</h1>
+         <div class="top-left-buttons">
+		<h1><a href="/home">home</a></h1>
+	</div>
+        <div class="top-right-buttons">
+            <form action="/search" method="get">
+                <input type="search" name="search" placeholder="Enter your search query">
+                <input type="submit" value="Search">
+            </form>
+            
+        </div>
+    </div>
+    <div class="container">
+        <h2>Latest Posts</h2>
+        <div class="post">
+          
+            <div th:each="data : ${homePageData}">
+                <p th:text="${data.id}"></p>
+                <p th:text="${data.excerpt}"></p>
+                <button>
+                <p><a th:href="@{'/delete?id=' + ${data.id}}">Delete</a></p>
+                </button>
+                  <button><a th:href="@{'/update?id=' + ${data.id}}">Update</a></button>
+            </div>
+        </div>
+        
+        
+    </div>
+</body>
+
+</html>

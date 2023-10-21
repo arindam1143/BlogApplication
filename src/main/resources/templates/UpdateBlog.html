@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		.blog-form {
+			max-width: 600px;
+			margin: 10px auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		label {
+			display: block;
+			margin-top: 10px;
+			font-weight: bold;
+		}
+
+		input[type="text"],
+		textarea {
+			width: 90%;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		input[type="checkbox"] {
+			margin-top: 10px;
+		}
+
+		input[type="date"] {
+			width: 90%;
+			padding: 10px;
+			margin: 5px 0;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		input[type="submit"] {
+			background-color: #007BFF;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #0056b3;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="blog-form">
+		<h2>Create a Blog Post</h2>
+		<form action="updatedata" method="post">
+			
+				<input type="hidden" name="id" th:value="${data.id}" />
+
+
+				<label for="title">Title:</label>
+				<input type="text" id="title" name="title" th:value="${data.title}" />
+
+				<label for="excerpt">Excerpt:</label>
+				<textarea id="excerpt" name="excerpt" th:text="${data.excerpt}"></textarea>
+
+				<label for="content">Content:</label>
+				<textarea id="content" name="content" th:text="${data.content}"></textarea>
+				
+				<label for="tag">Tag:</label>
+				<textarea id="tag" name="tagfield" th:text="${tagname}"></textarea>
+
+
+
+
+
+			<input type="submit" value="update" />
+		</form>
+	</div>
+</body>
+
+</html>

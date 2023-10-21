@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+    <div>
+        <form action="submitcommentupdate" method="post">
+			 <input type="hidden" name="postId" th:value="${comment.getPost().getId()}" />
+			 <!--<input type="text" name="commentfield" th:value="${comment.getPost().getId()}" />-->
+            <input type="hidden" name="commentId" th:value="${comment.getId()}" />
+            <input type="text" name="commentfield" th:value="${comment.getComment()}" />
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</body>
+
+</html>

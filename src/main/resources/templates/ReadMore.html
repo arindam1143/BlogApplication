@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			background-color: #f2f2f2;
+			text-align: center;
+		}
+
+		.header {
+			background-color: #333;
+			color: white;
+			padding: 20px;
+			text-align: center;
+		}
+
+		.top-left-buttons {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+		}
+
+		.top-left-buttons,
+		#homebtn {
+			text-decoration: none;
+			color: white;
+			margin: 0 10px;
+		}
+
+		.top-right-buttons {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+
+		.top-right-buttons a {
+			text-decoration: none;
+			color: white;
+			margin: 0 10px;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #ffffff;
+			border: 1px solid #e0e0e0;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		}
+
+		.post {
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin: 20px 0;
+		}
+
+		.post h2 {
+			color: #333;
+		}
+
+		p,
+		h3 {
+			display: inline;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">
+		<h1>Welcome to the Blog</h1>
+		<div class="top-left-buttons">
+			<h1><a href="/home" id="homebtn"><i class="fas fa-home"></i></a></h1>
+		</div>
+		<div class="top-right-buttons">
+			<form>
+				<input type="search" name="search" placeholder="Enter your search query">
+				<input type="submit" value="Search">
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="post-info">
+			<div th:each="data : ${posts}">
+				Title:-
+				<h3 th:text="${data.title}">Latest Posts</h3>
+				<br>
+				Excerpt:-
+				<p th:text="${data.excerpt}"></p>
+				<br>
+				created_at:-
+				<p th:text="${data.created_at}"></p>
+				<br>
+				updated_at:-
+				<p th:text="${data.updated_at}"></p>
+				<br>
+				published_at:-
+				<p th:text="${data.publishedAt}"></p>
+				<br>
+				Author Name:-
+				<p th:text="${data.author.name}"></p>
+				<br>
+				Tags:-
+				<span th:each="tag : ${data.tags}" class="tag">
+					<span th:text="${tag.name}"></span>
+				</span>
+			</div>
+		</div>
+		<div class="post">
+			<h2>Read Whole Blog</h2>
+
+			<p th:text="${posts.content}"></p>
+
+
+			<button><a th:href="@{'/update?id=' + ${posts.id}}">Update</a></button>
+			<button><a th:href="@{'/showcomment?id=' + ${posts.id}}">showComment</a></button>
+
+		</div>
+		<div>
+			<form action="/comment" method="get">
+				Name:-
+				<input type="text" name="name">
+				<br>
+				Email:-
+				<input type="email" name="email">
+				<br>
+				Comments
+				<textarea name="comment">
+
+					</textarea>
+				<input type="hidden" name="postId" th:value="${posts.id}" />
+				<br>
+				<input type="submit" value="Submit">
+
+			</form>
+		</div>
+	</div>
+	<div>
+		<div th:each="comment : ${comment}">
+			<div class="comment-author">
+				<h1 th:text="${comment.getName()}"></h1>
+				<p th:text="${comment.getEmail()}"></p>
+			</div>
+			<p th:text="${comment.getComment()}"></p>
+			<br>
+			<button><a th:href="@{'/updatecomment?id=' + ${comment.getId()}}">Update</a></button>
+			<br>
+			<br>
+			<button><a th:href="@{'/deletecomment?id=' + ${comment.getId()}}">Delete</a></button>
+		</div>
+	</div>
+	</div>
+</body>
+
+</html>

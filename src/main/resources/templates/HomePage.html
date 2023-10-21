@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Home</title>
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+			background-color: #f2f2f2;
+			text-align: center;
+		}
+
+		.header {
+			background-color: gray;
+			color: white;
+			padding: 20px;
+			text-align: center;
+			position: relative;
+		}
+
+		.top-left-buttons {
+			position: absolute;
+			top: 20px;
+			left: 20px;
+		}
+
+		.top-left-buttons a {
+			text-decoration: none;
+			color: white;
+			font-weight: bold;
+			font-size: 18px;
+			margin: 0 20px;
+		}
+
+		.top-right-buttons {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+		}
+
+		.top-right-buttons a,
+		form {
+			text-decoration: none;
+			color: white;
+			font-weight: bold;
+			font-size: 18px;
+			margin: 0 20px;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #ffffff;
+			border: 1px solid #e0e0e0;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		}
+
+		.post {
+			border: 1px solid #ccc;
+			padding: 20px;
+			margin: 20px 0;
+			background-color: #fff;
+			transition: transform 0.3s;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+
+
+		.post h2 {
+			color: #333;
+			font-size: 24px;
+		}
+
+		.post-content {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.post-excerpt {
+			flex-grow: 1;
+			margin-right: 20px;
+		}
+
+		.read-more-button {
+			text-align: right;
+		}
+
+		.read-more-button a {
+			text-decoration: none;
+			color: black;
+			font-weight: bold;
+		}
+
+		.read-more-button a:hover {
+			text-decoration: underline;
+		}
+
+		/* Custom Styles for Search Field and Button */
+		.search-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.search-input {
+			border: 2px solid #007BFF;
+			border-radius: 5px 0 0 5px;
+			padding: 10px;
+			width: 70%;
+			outline: none;
+		}
+
+		.search-button {
+			background-color: #007BFF;
+			color: white;
+			border: none;
+			border-radius: 0 5px 5px 0;
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="header">
+		<h1>Welcome to My Awesome Blog</h1>
+		<div class="top-left-buttons">
+			<a href="/authorpage">MyBlog</a>
+		</div>
+		<div class="top-right-buttons">
+			<form action="/search" method="get">
+				<div class="search-container">
+					<input type="search" name="search" class="search-input" placeholder="Enter your search query">
+					<button type="submit" class="search-button">Search</button>
+				</div>
+			</form>
+			<a href="/login">Login</a>
+			<a href="/signup">Sign Up</a>
+			<a href="/post">Create a Post</a>
+			<a href="/fielter">filter</a>
+			<form action="/latest" method="get">
+				<select name="order">
+					<option value="asc">Ascending Order (asce)</option>
+					<option value="desc">Descending Order (desc)</option>
+				</select>
+				<button type="submit">Apply</button>
+			</form>
+
+		</div>
+	</div>
+	<div class="container">
+		<h2>Latest Posts</h2>
+		<div th:each="data : ${homePageData}" class="post">
+			<div class="post-content">
+				<div class="post-excerpt">
+					<h2 th:text="${data.title}"></h2>
+					<p th:text="${data.id}"></p>
+					<p th:text="${data.content}"></p>
+					Author Name:-
+					<span th:text="${data.author.name}"></span>
+					<div class="tags">Tags:-
+						<span th:each="tag : ${data.tags}" class="tag">
+							<span th:text="${tag.name}"></span>
+						</span>
+					</div>
+
+
+				</div>
+				<div class="read-more-button">
+					<p><a th:href="@{'/readmore?id=' + ${data.id}}">Read More</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
