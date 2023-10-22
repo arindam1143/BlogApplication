@@ -27,14 +27,9 @@ public class PostService {
 	@Autowired
 	TagService tagService;
 
-	public Post createBlogPost(String title, String excerpt, String content, String tagfild, Model model) {
+	public Post createBlogPost(String title, String excerpt, String content, String tagfild, Model model, User author) {
 		Post postsObject = new Post();
-		User obj = new User();
-		obj.setName("avi");
-		obj.setEmail("avi@gmail.com");
-		obj.setPassword("123");
-		userRepository.save(obj);
-		postsObject.setAuthor(obj);
+		postsObject.setAuthor(author);
 		Date date = new Date();
 		postsObject.setTitle(title.trim());
 		postsObject.setExcerpt(excerpt.trim());
@@ -43,8 +38,15 @@ public class PostService {
 		postsObject.setCreated_at(date);
 		postsObject.setUpdated_at(date);
 		postsObject.setIs_published(flag);
-		postsObject.setAuthor(obj);
-		postRepository.save(postsObject);
+//		postsObject.setAuthor(author);
+		List<Post> authorPost = author.getPosts();
+		if (authorPost == null) {
+			authorPost = new ArrayList<>();
+		}
+		    authorPost.add(postsObject);
+			postsObject.setAuthor(author);
+			postRepository.save(postsObject);
+			userRepository.save(author);
 		String[] tagName = tagfild.split(",");
 		List<Tag> tags = tagRepository.findAll();
 		List<Tag> postTags = new ArrayList<>();

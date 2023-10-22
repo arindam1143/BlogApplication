@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<title>Home</title>
+	<title>searh</title>
 	<style>
 		body {
 			font-family: Arial, Helvetica, sans-serif;
@@ -120,7 +120,6 @@
 			padding: 10px 20px;
 			cursor: pointer;
 		}
-
 		.pagination {
 			display: flex;
 			justify-content: center;
@@ -146,6 +145,7 @@
 			background-color: #007BFF;
 			color: #fff;
 		}
+
 	</style>
 </head>
 
@@ -162,19 +162,10 @@
 					<button type="submit" class="search-button">Search</button>
 				</div>
 			</form>
-			<span th:if="${author == null}">
-				<a href="/login">Login</a>
-			</span>
-
+			<a href="/login">Login</a>
+			<a href="/signup">Sign Up</a>
 			<a href="/post">Create a Post</a>
 			<a href="/fielter">filter</a>
-			<span th:if="${author !=null}">
-				<form th:action="@{/logout}" method="POST">
-					<button class="buttons-container"><input type="submit" value="Logout"></button>
-				</form>
-			</span>
-				
-			
 			<form action="/latest" method="get">
 				<select name="order">
 					<option value="asc">Ascending Order (asce)</option>
@@ -191,7 +182,8 @@
 			<div class="post-content">
 				<div class="post-excerpt">
 					<h2 th:text="${data.title}"></h2>
-					<p th:text="${data.excerpt}"></p>
+					<p th:text="${data.id}"></p>
+					<p th:text="${data.content}"></p>
 					Author Name:-
 					<span th:text="${data.author.name}"></span>
 					<div class="tags">Tags:-
@@ -208,15 +200,14 @@
 			</div>
 		</div>
 	</div>
-	<nav th:if="${pageLen} != null" aria-label="Page navigation example">
-		<div th:if="${homePageData.totalPages > 1}">
-			<ul class="pagination">
-				<li th:each="page : ${#numbers.sequence(0, homePageData.totalPages - 1)}">
-					<a th:href="@{'/home?page=' + ${page}}" th:text="${page} + 1"></a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+	<div th:if="${homePageData.totalPages > 1}">
+		<ul class="pagination">
+			<li th:each="page : ${#numbers.sequence(0, homePageData.totalPages - 1)}">
+				<a th:href="@{~/search(search=${search},page=${page})}" th:text="${page} + 1"></a>
+			</li>
+		</ul>
+	</div>
+
 </body>
 
 </html>

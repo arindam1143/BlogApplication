@@ -8,7 +8,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
 import com.blog.application.Repository.PostRepository;
 import com.blog.application.Repository.TagRepository;
 import com.blog.application.Repository.UserRepository;
@@ -25,7 +28,7 @@ public class HomeService {
 	@Autowired
 	TagRepository tagRepository;
 
-	public Set<Post> search(String searchText) {
+	public Page<Post> search(String searchText,int page,int size) {
 		String[] searchEle = searchText.split(" ");
 		// Post post=new Post();
 //		System.out.println(searchEle[0]+searchEle[1]);
@@ -34,6 +37,7 @@ public class HomeService {
 		List<Tag> tag = tagRepository.findAll();
 
 		Set<Post> posts = new HashSet<>();
+//		List<Post> posts=new ArrayList<>();
 		for (String ele : searchEle) {
 			for (User username : user) {
 				if (username.getName().equals(ele)) {
@@ -51,8 +55,14 @@ public class HomeService {
 			posts.addAll(contentPosts);
 			posts.addAll(titlePosts);
 		}
+		List<Post> postslist = new ArrayList<>(posts);
+		int fromIndex = Math.min(page * size, posts.size());
+		int toIndex = Math.min(fromIndex + size, posts.size());
+		List<Post> content = postslist.subList(fromIndex, toIndex);
+       Page<Post> pageOfPosts = new PageImpl<>(content, PageRequest.of(page, size), posts.size());
 
-		return posts;
+		
+		return pageOfPosts;
 
 	}
 
@@ -80,5 +90,10 @@ public class HomeService {
 		return filteredBlogs;
 
 	}
+	public Page<Post> getBlogPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findAll(pageable);
+    }
+
 
 }

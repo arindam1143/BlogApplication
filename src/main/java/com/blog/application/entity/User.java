@@ -26,6 +26,16 @@ public class User {
 
 	@Column(name = "password")
 	private String password;
+	@Column(name="roles")
+    private String roles = "simpleUser";
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 
 	@OneToMany(mappedBy = "author")
 	private List<Post> posts;
@@ -74,5 +84,7 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
+
+	
 
 }

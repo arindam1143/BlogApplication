@@ -20,7 +20,7 @@ public class BlogApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner() {
-		return runner -> {
+		return runner -> { 
 
 		};
 	}

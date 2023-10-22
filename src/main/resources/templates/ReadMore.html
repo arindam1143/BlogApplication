@@ -75,13 +75,13 @@
 		<h1>Welcome to the Blog</h1>
 		<div class="top-left-buttons">
 			<h1><a href="/home" id="homebtn"><i class="fas fa-home"></i></a></h1>
+			<span th:if="${author !=null}">
+				<form th:action="@{/logout}" method="POST">
+					<button class="buttons-container"><input type="submit" value="Logout"></button>
+				</form>
+			</span>
 		</div>
-		<div class="top-right-buttons">
-			<form>
-				<input type="search" name="search" placeholder="Enter your search query">
-				<input type="submit" value="Search">
-			</form>
-		</div>
+
 	</div>
 	<div class="container">
 		<div class="post-info">
@@ -114,19 +114,29 @@
 			<h2>Read Whole Blog</h2>
 
 			<p th:text="${posts.content}"></p>
-
-
-			<button><a th:href="@{'/update?id=' + ${posts.id}}">Update</a></button>
-			<button><a th:href="@{'/showcomment?id=' + ${posts.id}}">showComment</a></button>
+			<!--<button><a th:href="@{'/showcomment?id=' + ${posts.id}}">showComment</a></button> -->
 
 		</div>
 		<div>
 			<form action="/comment" method="get">
-				Name:-
-				<input type="text" name="name">
-				<br>
-				Email:-
-				<input type="email" name="email">
+				<div th:if="${author != null}">
+					<span>Name:-</span>
+					<input type="text" name="name" th:value="${author.name}" th:readonly="true">
+				</div>
+				<div th:if="${author == null}">
+					<span>Name:-</span>
+					<input type="text" name="name">
+				</div>
+
+				<div th:if="${author != null}">
+					<span>Email:-</span>
+					<input type="text" name="email" th:value="${author.email}" th:readonly="true">
+				</div>
+				<div th:if="${author == null}">
+					<span>Email:-</span>
+					<input type="text" name="email">
+				</div>
+
 				<br>
 				Comments
 				<textarea name="comment">
@@ -147,10 +157,15 @@
 			</div>
 			<p th:text="${comment.getComment()}"></p>
 			<br>
-			<button><a th:href="@{'/updatecomment?id=' + ${comment.getId()}}">Update</a></button>
-			<br>
-			<br>
-			<button><a th:href="@{'/deletecomment?id=' + ${comment.getId()}}">Delete</a></button>
+		
+			 <span th:if="${author!=null}">
+				<span th:if="${comment.email==author.email}">
+					<button><a th:href="@{'/updatecomment?id=' + ${comment.id}}">Update</a></button>
+				</span>
+				<span th:if="${comment.email==author.email or comment.post.author==author}">
+					<button><a th:href="@{'/deletecomment?id=' + ${comment.id}}">Delete</a></button>
+				</span>
+			</span>
 		</div>
 	</div>
 	</div>

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.blog.application.entity.Post;
+import com.blog.application.entity.User;
 import com.blog.application.Repository.CommentRepository;
 import com.blog.application.Repository.PostRepository;
+import com.blog.application.Repository.UserRepository;
 import com.blog.application.entity.Comment;
 
 @Controller
@@ -25,12 +29,17 @@ public class CommentController {
 
 	@Autowired
 	CommentRepository commentRepository;
+	@Autowired
+	UserRepository userRepository;
 
 	@RequestMapping("/readmore")
 	public String reamMore(@RequestParam("id") int id, Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
 		Post posts = postRepository.findById(id).get();
-		// System.out.print(posts.getContent());
 		List<Comment> commentList = posts.getComments();
+		model.addAttribute("author",author);
 		model.addAttribute("comment", commentList);
 		model.addAttribute("posts", posts);
 
@@ -58,6 +67,10 @@ public class CommentController {
 	public String ShowComment(@RequestParam("id") int id, Model model) {
 		Post post = postRepository.findById(id).get();
 		List<Comment> commentList = post.getComments();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
+        model.addAttribute("author", author);
 		model.addAttribute("comment", commentList);
 
 		return "ShowComment";
@@ -66,6 +79,10 @@ public class CommentController {
 	@RequestMapping("/updatecomment")
 	public String UpdateComment(@RequestParam("id") int id, Model model) {
 		Comment comment = commentRepository.findById(id).get();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
+        //System.out.print(author.getName());
 		model.addAttribute("comment", comment);
 		return "UpdateComment";
 		// return "redirect:/UpdateComment?id="+id;

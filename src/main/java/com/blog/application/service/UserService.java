@@ -22,7 +22,7 @@ public class UserService {
 	@Autowired
 	TagService tagService;
 
-	public void updateBlogData(String id, String title, String excerpt, String content, String tagfield, Model model) {
+	public Post updateBlogData(String id, String title, String excerpt, String content, String tagfield, Model model) {
 		Post postsObject = postRepository.findById(Integer.parseInt(id)).get();
 		postsObject.setTitle(title);
 		postsObject.setExcerpt(excerpt);
@@ -94,6 +94,7 @@ public class UserService {
 			postRepository.save(postsObject);
 
 		}
+		return postsObject;
 
 	}
 }

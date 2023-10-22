@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<style>
@@ -57,7 +57,7 @@
 <body>
 	<div class="blog-form">
 		<h2>Create a Blog Post</h2>
-		<form action="updatedata" method="post">
+		<form th:action="@{/updatedata}" method="post">
 			
 				<input type="hidden" name="id" th:value="${data.id}" />
 

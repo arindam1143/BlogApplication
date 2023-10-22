@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,29 +32,34 @@
         .comment-author {
             font-weight: bold;
         }
-        a{
-			text-decoration: none;
-		}
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
+
 <body>
-   
 
     <div class="comment">
-		<div th:each="comment : ${comment}">
-        <div class="comment-author">
-			<h1 th:text="${comment.getName()}"></h1>
-            <p th:text="${comment.getEmail()}"></p>
+        <div th:each="comment : ${comment}">
+            <div class="comment-author">
+                <h1 th:text="${comment.name}"></h1>
+                <p th:text="${comment.email}"></p>
+            </div>
+            <p th:text="${comment.comment}"></p>
+            <br>
+            <span th:if="${author != null}">
+                <span th:if="${author.email == comment.email}">
+                    <button><a th:href="@{'/updatecomment?id=' + ${comment.id}}">Update</a></button>
+                    <br>
+                    <br>
+                    <button><a th:href="@{'/deletecomment?id=' + ${comment.id}}">Delete</a></button>
+                </span>
+            </span>
         </div>
-        <p  th:text="${comment.getComment()}"></p>
-        <br>
-       <button><a th:href="@{'/updatecomment?id=' + ${comment.getId()}}">Update</a></button>
-        <br>
-        <br>
-        <button><a th:href="@{'/deletecomment?id=' + ${comment.getId()}}">Delete</a></button>
     </div>
-    </div>
-  
-    
+
 </body>
+
 </html>

@@ -71,6 +71,11 @@
                 <input type="search" name="search" placeholder="Enter your search query">
                 <input type="submit" value="Search">
             </form>
+            <span th:if="${author !=null}">
+				<form th:action="@{/logout}" method="POST">
+					<button class="buttons-container"><input type="submit" value="Logout"></button>
+				</form>
+			</span>
             
         </div>
     </div>
@@ -78,8 +83,8 @@
         <h2>Latest Posts</h2>
         <div class="post">
           
-            <div th:each="data : ${homePageData}">
-                <p th:text="${data.id}"></p>
+            <div th:each="data : ${posts}">
+                <p th:text="${data.title}"></p>
                 <p th:text="${data.excerpt}"></p>
                 <button>
                 <p><a th:href="@{'/delete?id=' + ${data.id}}">Delete</a></p>

@@ -26,6 +26,7 @@ public class Post {
 	private int id;
 	private String title;
 	private String excerpt;
+	 @Column(length =5000)
 	private String content;
 	private Date created_at;
 	private Date updated_at;

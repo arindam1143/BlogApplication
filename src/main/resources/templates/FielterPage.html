@@ -2,69 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-		}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-		.container {
-			display: flex;
-		}
+        .container {
+            display: flex;
+        }
 
-		.column {
-			flex: 1;
-			padding: 10px;
-		}
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
 
-		.column-label {
-			font-weight: bold;
-		}
+        .column-label {
+            font-weight: bold;
+        }
 
-		.checkbox-label {
-			display: block;
-		}
-	</style>
+        .checkbox-label {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="container">
-		<form action="filterblog" method="post">
+    <div class="container">
+        <form th:action="@{/filterblog}" method="post">
 
-			<div class="column">
-				<p class="column-label">Author:</p>
-				<div th:each="data : ${username}" class="post">
-					<label class="checkbox-label">
-						<input type="checkbox" name="authorCheckbox" th:value="${data.getName()}"
-							th:text="${data.getName()}">
+            <div class="column">
+                <p class="column-label">Author:</p>
+                <div th:each="data : ${username}" class="post">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="authorCheckbox" th:value="${data.name}"
+                            th:text="${data.name}">
 
-				</div>
-			</div>
+                    </label>
+                </div>
+            </div>
 
-			<div class="column">
-				<p class="column-label">Publish Date:</p>
-				<div th:each="data : ${publishedDate}" class="post">
-					<label class="checkbox-label">
-						<input type="checkbox" name="dateCheckbox" th:value="${data.getPublishedAt()}"
-							th:text="${data.getPublishedAt()}">
-					</label>
+            <div class="column">
+                <p class="column-label">Publish Date:</p>
+                <div th:each="data : ${publishedDate}" class="post">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="dateCheckbox" th:value="${data.publishedAt}"
+                            th:text="${data.publishedAt}">
+                    </label>
+                </div>
+            </div>
 
-				</div>
-
-			</div>
-
-			<div class="column">
-				<p class="column-label">Tag:</p>
-				<div th:each="data : ${tagname}" class="post">
-					<label class="checkbox-label">
-						<input type="checkbox" name="tagCheckbox" th:value="${data.getName()}"
-							th:text="${data.getName()}">
-					</label>
-
-				</div>
-			</div>
-			<input type="submit" value="submit">
-		</form>
-	</div>
+            <div class="column">
+                <p class="column-label">Tag:</p>
+                <div th:each="data : ${tagname}" class="post">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="tagCheckbox" th:value="${data.name}"
+                            th:text="${data.name}">
+                    </label>
+                </div>
+            </div>
+            <input type="submit" value="submit">
+        </form>
+    </div>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login Page</title>
     <style>
@@ -57,22 +57,22 @@
 </head>
 <body>
 	<div class="header">
-    <h1>Welcome to the Blog</h1>
-    <div class="top-left-buttons">
-		<h1><a href="/home">Home</a></h1>
-	</div>
+        <h1>Welcome to the Blog</h1>
+        <div class="top-left-buttons">
+            <h1><a th:href="@{/home}">Home</a></h1>
+        </div>
    </div>
-<div class="login-container">
-    <h2>Login</h2>
-    <form action="logindata" method="post">
-        <input type="text" name="email" placeholder="email" required>
-        <br>
-        <input type="password" name="password" placeholder="Password" required>
-        <br>
-        <input type="submit" value="Login">
-        <br>
-        <h3>Do not have your account  <a href="/signup"> SignUp</a></h3>
-    </form>
-</div>
+   <div class="login-container">
+        <h2>Login</h2>
+        <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+            <input type="text" name="username" th:placeholder="email" required>
+            <br>
+            <input type="password" name="password" th:placeholder="Password" required>
+            <br>
+            <input type="submit" value="Login">
+            <br>
+            <h3>Don't have an account? <a th:href="@{/signup}">Sign Up</a></h3>
+        </form>
+   </div>
 </body>
 </html>

@@ -5,7 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,41 +42,22 @@ public class PostController {
 	TagService tagService;
 	@Autowired
 	PostService postService;
+	
 
 	@GetMapping("/post")
 	public String Write() {
 		return "Post";
 	}
 
-	@GetMapping("/login")
-	public String LoginPage() {
-
-		return "Login";
-	}
-
-	@PostMapping("/signupdata")
-	public String SignUpData(@RequestParam("name") String name, @RequestParam("email") String email,
-			@RequestParam("password") String password) {
-		User userObject = new User();
-		userObject.setName(name);
-		userObject.setEmail(email);
-		userObject.setPassword(password);
-		userRepository.save(userObject);
-		System.out.println(userObject.getName() + " " + userObject.getEmail());
-		return "redirect:/home";
-
-	}
-
-	@GetMapping("/signup")
-	public String SignUpPage() {
-
-		return "SignUp";
-	}
-
+	
 	@PostMapping("/postblog")
 	public String createPost(@RequestParam("title") String title, @RequestParam("excerpt") String excerpt,
 			@RequestParam("content") String content, @RequestParam("tagfild") String tagfild, Model model) {
-		Post postsObject = postService.createBlogPost(title, excerpt, content, tagfild, model);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
+		
+		Post postsObject = postService.createBlogPost(title, excerpt, content, tagfild, model,author);
 		model.addAttribute("homePageData", postsObject);
 		return "redirect:/home";
 	}
