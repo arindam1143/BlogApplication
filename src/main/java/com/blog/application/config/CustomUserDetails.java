@@ -5,29 +5,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.blog.application.entity.User;
 
+public class CustomUserDetails implements UserDetails {
 
-
-public class CustomUserDetails implements UserDetails{
-	
 	private User user;
-	
+
 	public CustomUserDetails(User user) {
 		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+		List<GrantedAuthority> authorities = Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
 		return authorities;
 	}
 
@@ -57,7 +52,7 @@ public class CustomUserDetails implements UserDetails{
 	}
 
 	@Override
-	public boolean isEnabled() {	
+	public boolean isEnabled() {
 		return true;
 	}
 

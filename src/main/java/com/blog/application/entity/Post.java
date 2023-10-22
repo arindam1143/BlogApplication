@@ -12,8 +12,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 import java.util.Date;
 import java.util.List;
@@ -124,13 +122,6 @@ public class Post {
 		this.content = content;
 	}
 
-//	public Date getPublished_at() {
-//		return published_at;
-//	}
-//
-//	public void setPublished_at(Date published_at) {
-//		this.published_at = published_at;
-//	}
 
 	public Boolean getIs_published() {
 		return is_published;

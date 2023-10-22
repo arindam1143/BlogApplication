@@ -28,7 +28,7 @@ public class HomeService {
 	@Autowired
 	TagRepository tagRepository;
 
-	public Page<Post> search(String searchText,int page,int size) {
+	public Page<Post> searchBlog(String searchText,int page,int size) {
 		String[] searchEle = searchText.split(" ");
 		// Post post=new Post();
 //		System.out.println(searchEle[0]+searchEle[1]);
@@ -37,22 +37,24 @@ public class HomeService {
 		List<Tag> tag = tagRepository.findAll();
 
 		Set<Post> posts = new HashSet<>();
-//		List<Post> posts=new ArrayList<>();
 		for (String ele : searchEle) {
-			for (User username : user) {
-				if (username.getName().equals(ele)) {
-					posts.addAll(username.getPosts());
-				}
-			}
-			for (Tag tagname : tag) {
-				if (tagname.getName().equals(ele)) {
-					posts.addAll(tagname.getPosts());
-				}
-			}
-
+//			for (User username : user) {
+//				if (username.getName().toLowerCase().equals(ele.toLowerCase())) {
+//					posts.addAll(username.getPosts());
+//				}
+//			}
+//			for (Tag tagname : tag) {
+//				if (tagname.getName().equals(ele)) {
+//					posts.addAll(tagname.getPosts());
+//				}
+//			}
+			List<Post> namePosts=userRepository.searchByName(ele);
+			List<Post> tagPosts = tagRepository.searchByTag(ele);
 			List<Post> titlePosts = postRepository.searchByTitle(ele);
 			List<Post> contentPosts = postRepository.searchByContent(ele);
+			posts.addAll(namePosts);
 			posts.addAll(contentPosts);
+			posts.addAll(tagPosts);
 			posts.addAll(titlePosts);
 		}
 		List<Post> postslist = new ArrayList<>(posts);

@@ -2,7 +2,6 @@ package com.blog.application.controller;
 
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,11 +34,11 @@ public class CommentController {
 	@RequestMapping("/readmore")
 	public String reamMore(@RequestParam("id") int id, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User author = userRepository.getUserByUserName(username);
+		String username = authentication.getName();
+		User author = userRepository.getUserByUserName(username);
 		Post posts = postRepository.findById(id).get();
 		List<Comment> commentList = posts.getComments();
-		model.addAttribute("author",author);
+		model.addAttribute("author", author);
 		model.addAttribute("comment", commentList);
 		model.addAttribute("posts", posts);
 
@@ -68,9 +67,9 @@ public class CommentController {
 		Post post = postRepository.findById(id).get();
 		List<Comment> commentList = post.getComments();
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User author = userRepository.getUserByUserName(username);
-        model.addAttribute("author", author);
+		String username = authentication.getName();
+		User author = userRepository.getUserByUserName(username);
+		model.addAttribute("author", author);
 		model.addAttribute("comment", commentList);
 
 		return "ShowComment";
@@ -79,13 +78,8 @@ public class CommentController {
 	@RequestMapping("/updatecomment")
 	public String UpdateComment(@RequestParam("id") int id, Model model) {
 		Comment comment = commentRepository.findById(id).get();
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User author = userRepository.getUserByUserName(username);
-        //System.out.print(author.getName());
 		model.addAttribute("comment", comment);
 		return "UpdateComment";
-		// return "redirect:/UpdateComment?id="+id;
 	}
 
 	@PostMapping("/submitcommentupdate")

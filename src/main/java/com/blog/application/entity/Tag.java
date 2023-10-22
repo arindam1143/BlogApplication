@@ -9,8 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "Tagstable")
@@ -61,5 +59,5 @@ public class Tag {
 		this.updated_at = updated_at;
 	}
 
-	// Getters and setters
+	
 }

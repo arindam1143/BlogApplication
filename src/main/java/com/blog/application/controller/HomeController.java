@@ -1,7 +1,5 @@
 package com.blog.application.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +7,6 @@ import java.util.Set;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,60 +21,55 @@ import com.blog.application.entity.Post;
 import com.blog.application.entity.Tag;
 import com.blog.application.entity.User;
 import com.blog.application.service.HomeService;
-import org.springframework.ui.Model;
 
 @Controller
 public class HomeController {
 	@Autowired
 	PostRepository postRepository;
- 
+
 	@Autowired
 	HomeService homeService;
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
 	TagRepository tagRepository;
-	
+
 	@GetMapping("/")
-	 public String OpningHomepage(
-			 @RequestParam(defaultValue = "0") int page, 
-			 @RequestParam(defaultValue = "2") int size,
+	public String OpningHomepage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
 			Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User author = userRepository.getUserByUserName(username);
+		String username = authentication.getName();
+		User author = userRepository.getUserByUserName(username);
 		Page<Post> blogPosts = homeService.getBlogPosts(page, size);
 		model.addAttribute("homePageData", blogPosts);
-		int pageLen=blogPosts.getSize();
-		model.addAttribute("author",author);
-		model.addAttribute("pageLen",pageLen);
+		int pageLen = blogPosts.getSize();
+		model.addAttribute("author", author);
+		model.addAttribute("pageLen", pageLen);
 		return "HomePage";
 	}
-	
 
 	@RequestMapping("/home")
-	 public String Homepage(
-			 @RequestParam(defaultValue = "0") int page, 
-			 @RequestParam(defaultValue = "2") int size,
+	public String Homepage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
 			Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User author = userRepository.getUserByUserName(username);
+		String username = authentication.getName();
+		User author = userRepository.getUserByUserName(username);
 		Page<Post> blogPosts = homeService.getBlogPosts(page, size);
 		model.addAttribute("homePageData", blogPosts);
-		int pageLen=blogPosts.getSize();
-		model.addAttribute("author",author);
-		model.addAttribute("pageLen",pageLen);
+		int pageLen = blogPosts.getSize();
+		model.addAttribute("author", author);
+		model.addAttribute("pageLen", pageLen);
 		return "HomePage";
 	}
 
-	 
-
 	@RequestMapping("/latest")
-	public String LatestBlog(
-			@RequestParam(name = "order") String order,
-			 @RequestParam(defaultValue = "0") int page, 
-			 @RequestParam(defaultValue = "2") int size,Model model) {
+	public String LatestBlog(@RequestParam(name = "order") String order, 
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "2") int size, Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		User author = userRepository.getUserByUserName(username);
+		model.addAttribute("author", author);
 		if (order.equals("asc")) {
 			List<Post> list = postRepository.findAll(Sort.by(Sort.Order.desc("publishedAt")));
 			model.addAttribute("homePageData", list);
@@ -87,25 +78,18 @@ public class HomeController {
 			List<Post> list = postRepository.findAll(Sort.by(Sort.Order.asc("publishedAt")));
 			model.addAttribute("homePageData", list);
 			return "HomePage";
-
+ 
 		}
-//		List<Post> postslist = new ArrayList<>(posts);
-//		int fromIndex = Math.min(page * size, posts.size());
-//		int toIndex = Math.min(fromIndex + size, posts.size());
-//		List<Post> content = postslist.subList(fromIndex, toIndex);
-//       Page<Post> pageOfPosts = new PageImpl<>(content, PageRequest.of(page, size), posts.size());
 
 	}
 
 	@GetMapping("/search")
-	public String search(
-			@RequestParam("search") String searchText, 
-			@RequestParam(defaultValue = "0") int page, 
-			@RequestParam(defaultValue = "2") int size,Model model) {
-		Page<Post> posts = homeService.search(searchText, page, size);
+	public String search(@RequestParam("search") String searchText, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size, Model model) {
+		Page<Post> posts = homeService.searchBlog(searchText, page, size);
 		model.addAttribute("homePageData", posts);
-		model.addAttribute("search",searchText);
-		model.addAttribute("page",page);
+		model.addAttribute("search", searchText);
+		model.addAttribute("page", page);
 		return "SearchResult";
 	}
 
