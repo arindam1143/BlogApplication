@@ -78,10 +78,17 @@ public class UserController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User author = userRepository.getUserByUserName(username);
-		List<Post> listOfPost=author.getPosts();
-		model.addAttribute("posts", listOfPost);
-		model.addAttribute("author",author);
-		 
+		if(author.getRoles().equals("admin")) {
+			List<Post> listOfPost=postRepository.findAll();
+			model.addAttribute("posts", listOfPost);
+			model.addAttribute("author",author);
+		}else {
+			List<Post> listOfPost=author.getPosts();
+			model.addAttribute("posts", listOfPost);
+			model.addAttribute("author",author);
+		}
+
+
 
 		return "AuthorPage";
 	}
