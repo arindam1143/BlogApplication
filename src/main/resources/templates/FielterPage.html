@@ -34,8 +34,8 @@
                 <p class="column-label">Author:</p>
                 <div th:each="data : ${username}" class="post">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="authorCheckbox" th:value="${data.name}"
-                            th:text="${data.name}">
+                        <input type="checkbox" name="authorCheckbox" th:value="${data}"
+                            th:text="${data}">
 
                     </label>
                 </div>

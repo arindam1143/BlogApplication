@@ -95,8 +95,12 @@ public class HomeController {
 
 	@RequestMapping("/fielter")
 	public String Fielter(Model model) {
-		List<User> username = userRepository.findAll();
-		model.addAttribute("username", username);
+		List<User> user = userRepository.findAll();
+		Set<String> authorname=new HashSet<>();
+		for(User username:user) {
+			authorname.add(username.getName());
+		}
+		model.addAttribute("username", authorname);
 		List<Post> publishedDate = postRepository.findAll();
 		model.addAttribute("publishedDate", publishedDate);
 		List<Tag> tagname = tagRepository.findAll();

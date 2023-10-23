@@ -27,7 +27,7 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	@Column(name="roles")
-    private String roles = "admin";
+    private String roles = "simpleUser";
 
     public String getRoles() {
         return roles;
